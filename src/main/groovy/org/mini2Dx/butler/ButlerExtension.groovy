@@ -39,14 +39,11 @@ class ButlerExtension {
 	 * Set to false to disable Butler updates
 	 */
 	boolean updateButler = true;
-	/**
-	 * When true appends -alpha to the channel name
-	 */
-	boolean alphaChannel = false;
-	/**
-	 * When true appends -beta to channel name
-	 */
-	boolean betaChannel = false;
+	
+	String channel;
+	
+	File binDirectory;
+	
 	/**
 	 * Set if you want to override itch.io's version number
 	 */

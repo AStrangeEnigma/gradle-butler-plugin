@@ -27,7 +27,7 @@ if(project.hasProperty('ossrhUser') && project.hasProperty("release")) {
 }
 
 group = 'org.mini2Dx'
-version = '1.0.2-SNAPSHOT'
+version = '2.0.0-SNAPSHOT'
 description = 'Gradle plugin for the itch.io butler command line tool'
 
 repositories {
@@ -57,7 +57,7 @@ artifacts {
 dependencies {
 	compile gradleApi()
 	compile localGroovy()
-	compile 'de.undercouch:gradle-download-task:3.0.0'
+	compile 'de.undercouch:gradle-download-task:3.1.0'
 
 	testCompile 'junit:junit:4.11'
 	testCompile gradleTestKit()
@@ -112,5 +112,5 @@ if(project.hasProperty('ossrhUser')) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
+    gradleVersion = '3.0'
 }

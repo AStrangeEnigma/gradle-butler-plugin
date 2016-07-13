@@ -1,3 +1,5 @@
+TODO: Add comments to new properties, change other String paths to Files, comprehensive Readme update, investigate auto setting version property
+
 # gradle-butler-plugin
 [![Build Status](https://travis-ci.org/mini2Dx/gradle-butler-plugin.svg?branch=master)](https://travis-ci.org/mini2Dx/gradle-butler-plugin)
 

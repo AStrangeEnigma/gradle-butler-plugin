@@ -40,49 +40,38 @@ class PushTask extends DefaultTask  {
 
 	@TaskAction
 	def pushToItch() {
-		def osBinDir = null;
-		String channel;
-
-		if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-			osBinDir = project.getExtensions().findByName('butler').windows.binDirectory
-			channel = "windows"
-		} else if (Os.isFamily(Os.FAMILY_MAC)) {
-			osBinDir = project.getExtensions().findByName('butler').osx.binDirectory
-			channel = "osx"
-		} else {
-			osBinDir = project.getExtensions().findByName('butler').linux.binDirectory
-			channel = "linux"
+		String channel = project.getExtensions().findByName('butler').channel;
+		File binDirectory = project.getExtensions().findByName('butler').binDirectory;
+		
+		if(channel == null) {
+    		throw new Exception("No channel set!")
 		}
-		if(osBinDir == null) {
+		if(binDirectory == null) {
 			throw new Exception("No steward binary directory set for " + channel)
 		}
-		
-		if(project.getExtensions().findByName('butler').alphaChannel) {
-			channel += "-alpha"
-		} else if(project.getExtensions().findByName('butler').betaChannel) {
-			channel += "-beta"
-		}
 
-		File binDirectory = new File(osBinDir)
 		if(!binDirectory.exists()) {
 			throw new NoBuildException()
 		}
+		if(!binDirectory.isDirectory()) {
+		    throw new Exception("Provided bin directory not a real directory")
+		}
 		String user = project.getExtensions().findByName('butler').user
 		if(user == null) {
-			throw new Exception("user not set in steward configuration")
+			throw new Exception("User not set in steward configuration")
 		}
 		String game = project.getExtensions().findByName('butler').game
 		if(game == null) {
-			throw new Exception("game not set in steward configuration")
+			throw new Exception("Game not set in steward configuration")
 		}
 		String deployDetails = user + "/" + game + ":" + channel;
 
 		if(project.getExtensions().findByName('butler').userVersion != null) {
 			println "Deploying to itch.io [" + deployDetails + "] with version " + project.getExtensions().findByName('butler').userVersion
-			ButlerUtils.execButler(project, binDirectory.getAbsolutePath(), deployDetails, "--userversion", project.getExtensions().findByName('butler').userVersion);
+			ButlerUtils.execButler(project, "push", binDirectory.getAbsolutePath(), deployDetails, "--userversion", project.getExtensions().findByName('butler').userVersion);
 		} else {
 			println "Deploying to itch.io [" + deployDetails + "]"
-			ButlerUtils.execButler(project, binDirectory.getAbsolutePath(), deployDetails);
+			ButlerUtils.execButler(project, "push", binDirectory.getAbsolutePath(), deployDetails);
 		}
 	}
 }

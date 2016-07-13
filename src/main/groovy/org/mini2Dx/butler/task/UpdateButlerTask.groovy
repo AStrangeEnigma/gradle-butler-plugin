@@ -72,6 +72,12 @@ class UpdateButlerTask extends DefaultTask {
 		downloadAction.dest(installDirectory)
 		downloadAction.execute()
 		
+		File file = new File(installDirectory, "butler")
+		if (!file.isFile()) {
+		    throw new Exception("Can't access butler file!")
+		}
+		file.setExecutable(true)
+		
 		ButlerUtils.execButler(project, "-V");
 	}
 	
